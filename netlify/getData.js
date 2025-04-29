@@ -1,8 +1,7 @@
-// netlify/functions/getData.js
 const axios = require("axios");
 
 exports.handler = async (event) => {
-  console.log("🚀 getData called with:", event.queryStringParameters);
+  console.log("getData called:", event.queryStringParameters);
 
   const { yf_ticker, start_date, yf_interval } = event.queryStringParameters || {};
   if (!yf_ticker || !start_date || !yf_interval) {
@@ -15,10 +14,11 @@ exports.handler = async (event) => {
   try {
     const period1 = Math.floor(new Date(start_date).getTime() / 1000);
     const period2 = Math.floor(Date.now() / 1000);
-    const url = `https://query1.finance.yahoo.com/v7/finance/download/${encodeURIComponent(yf_ticker)}` +
-                `?period1=${period1}&period2=${period2}` +
-                `&interval=${encodeURIComponent(yf_interval)}` +
-                `&events=history&includeAdjustedClose=true`;
+    const url =
+      `https://query1.finance.yahoo.com/v7/finance/download/${encodeURIComponent(yf_ticker)}` +
+      `?period1=${period1}&period2=${period2}` +
+      `&interval=${encodeURIComponent(yf_interval)}` +
+      `&events=history&includeAdjustedClose=true`;
 
     const resp = await axios.get(url);
     return {
@@ -27,11 +27,12 @@ exports.handler = async (event) => {
       body: resp.data
     };
   } catch (err) {
-    console.error("Error fetching from Yahoo:", err);
+    console.error("Error Yahoo:", err.message);
     return {
       statusCode: err.response?.status || 500,
-      body: JSON.stringify({ error: err.message, details: err.response?.data })
+      body: JSON.stringify({ error: err.message })
     };
   }
 };
+
 
