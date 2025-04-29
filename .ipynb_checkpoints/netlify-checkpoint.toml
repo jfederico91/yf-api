@@ -1,4 +1,0 @@
-[build]
-  functions = "netlify/functions"
-  # no hay sitio estático, pero Netlify exige un "publish" folder aunque esté vacío
-  publish = "."
