@@ -1,5 +1,5 @@
 // netlify/functions/getData.js
-
+console.log("🚀 getData called with:", event.queryStringParameters);
 const axios = require("axios");
 
 exports.handler = async (event) => {
